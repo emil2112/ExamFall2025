@@ -1,0 +1,46 @@
+### Create a new user
+POST {{url}}/auth/register
+
+{
+    "username": "user3",
+    "password": "test123"
+}
+
+### Login with new test user. Creates token
+POST {{url}}/auth/login
+
+{
+    "username": "user3",
+    "password": "test123"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+    console.log("JWT Token:", client.global.get("jwt_token"));
+%}
+
+### Get a candidate by ID
+GET {{url}}/candidates/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Tests a user role and its access
+GET {{url}}/protected/admin_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Add admin role to user
+POST {{url}}/auth/user/addrole/ADMIN
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+    "role": "admin"
+}
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Adds a skill to a specific candidate
+PUT {{url}}/candidates/1/skills/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
