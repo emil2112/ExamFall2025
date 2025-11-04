@@ -21,5 +21,7 @@ and delete candidates and skills.
 
 # TESTING
 * There are tests in the given Java test folder, both HTTP endpoint tests and JUnit tests.
+* Tests confirm that basic CRUD endpoints are working as intended.
+* An ADMIN Role is assigned to the test user, and confirms that the access control works in the test environment.
 
 
