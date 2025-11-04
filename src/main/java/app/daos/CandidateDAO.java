@@ -87,7 +87,6 @@ public class CandidateDAO implements IDAO <CandidateDTO, Integer>{
             logger.info("Candidate with ID: " + candidate.getId() + " has been deleted");
             return true;
         } catch (Exception e) {
-            //TODO: FIX EXCPETIONS
             if (em.getTransaction() != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -96,25 +95,25 @@ public class CandidateDAO implements IDAO <CandidateDTO, Integer>{
         }
     }
 
-    public CandidateDTO addSkill (Integer candidateId, Integer skillId){
-        try(EntityManager em = emf.createEntityManager()){
+    public CandidateDTO addSkill(Integer candidateId, Integer skillId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+
             Candidate candidate = em.find(Candidate.class, candidateId);
             Skill skill = em.find(Skill.class, skillId);
 
-            if(candidate != null){
-                candidate.addSkill(skill);
-
-                em.getTransaction().begin();
-                em.merge(candidate);
-                em.getTransaction().commit();
-                return new CandidateDTO(candidate);
-            }else{
-                System.out.println("Candidate not found in database");
+            if (candidate == null || skill == null) {
+                throw new DAOException("Candidate or Skill not found", null);
             }
 
+            candidate.addSkill(skill);
+            em.getTransaction().commit();
+
+            candidate.getSkills().size();
+
+            return new CandidateDTO(candidate);
         } catch (Exception e) {
             throw new DAOException("Error while adding skill to candidate in the database", e);
         }
-        return null;
     }
 }

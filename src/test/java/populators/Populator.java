@@ -37,15 +37,22 @@ public class Populator {
         try(EntityManager em = emf.createEntityManager()){
             em.getTransaction().begin();
             Role adminRole = em.find(Role.class, "ADMIN");
+            Role userRole = em.find(Role.class, "USER");
             if(adminRole == null){
                 adminRole = new  Role("ADMIN");
                 em.persist(adminRole);
             }
+            if(userRole == null){
+                userRole = new  Role("USER");
+                em.persist(userRole);
+            }
+
             User user = em.find(User.class, "admin");
             if(user == null) {
                 user = new User("admin","admin");
             }
             user.addRole(adminRole);
+            user.addRole(userRole);
             em.persist(user);
             em.getTransaction().commit();
         } catch (Exception e) {

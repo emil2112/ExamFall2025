@@ -47,13 +47,18 @@ public class CandidateController {
     public void getCandidateById(Context ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
         CandidateDTO candidateDTO = candidateDAO.getById(id);
+
+        if(candidateDTO == null){
+            ctx.status(HttpStatus.NOT_FOUND).result("Candidate Not Found");
+        }
+
         ctx.status(200).json(candidateDTO);
     }
 
     public void createCandidate(Context ctx){
         CandidateDTO candidateDTO = ctx.bodyAsClass(CandidateDTO.class);
-        CandidateDTO trip = candidateDAO.create(candidateDTO);
-        ctx.status(HttpStatus.CREATED).json(trip);
+        CandidateDTO candidate = candidateDAO.create(candidateDTO);
+        ctx.status(HttpStatus.CREATED).json(candidate);
         ctx.res().setStatus(201);
     }
 
@@ -62,7 +67,7 @@ public class CandidateController {
         CandidateDTO candidateDTO = ctx.bodyAsClass(CandidateDTO.class);
         CandidateDTO candidate = candidateDAO.getById(id);
         if(candidate == null){
-            ctx.status(HttpStatus.NOT_FOUND).result("Guide Not Found");
+            ctx.status(HttpStatus.NOT_FOUND).result("Candidate Not Found");
         }
 
         CandidateDTO updatedCandidate = candidateDAO.update(candidateDTO);
@@ -74,10 +79,10 @@ public class CandidateController {
         int id = Integer.parseInt(ctx.pathParam("id"));
         CandidateDTO candidateDTO = candidateDAO.getById(id);
         if(candidateDTO == null){
-            ctx.status(HttpStatus.NOT_FOUND).result("Guide Not Found");
+            ctx.status(HttpStatus.NOT_FOUND).result("Candidate Not Found");
         }
 
-        Boolean tripDeleted = candidateDAO.delete(id);
+        Boolean candidateDeleted = candidateDAO.delete(id);
         ctx.status(HttpStatus.OK).result("Entity deleted");
     }
 
@@ -89,7 +94,7 @@ public class CandidateController {
             CandidateDTO candidate = candidateDAO.addSkill(candidateId, skillId);
 
             if(candidate == null){
-                ctx.status(HttpStatus.NOT_FOUND).result("Failed to add skill to guide");
+                ctx.status(HttpStatus.NOT_FOUND).result("Failed to add skill to Candidate");
             }
 
             ctx.status(HttpStatus.OK).json(candidate);

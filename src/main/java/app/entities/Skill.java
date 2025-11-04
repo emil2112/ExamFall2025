@@ -27,7 +27,7 @@ public class Skill {
 
     private String description;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Candidate> candidates = new HashSet<>();
 
     public Skill(SkillDTO skillDTO){

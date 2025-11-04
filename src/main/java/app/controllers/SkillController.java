@@ -15,8 +15,8 @@ public class SkillController {
     private final SkillDAO skillDAO = SkillDAO.getInstance(emf);
 
     public void getAllSkills(Context ctx){
-        List<SkillDTO> tripList = skillDAO.getAll();
-        ctx.json(tripList);
+        List<SkillDTO> skillList = skillDAO.getAll();
+        ctx.json(skillList);
     }
 
     public void getSkillById(Context ctx){
@@ -27,8 +27,8 @@ public class SkillController {
 
     public void createSkill(Context ctx){
         SkillDTO skillDTO = ctx.bodyAsClass(SkillDTO.class);
-        SkillDTO trip = skillDAO.create(skillDTO);
-        ctx.status(HttpStatus.CREATED).json(trip);
+        SkillDTO skill = skillDAO.create(skillDTO);
+        ctx.status(HttpStatus.CREATED).json(skill);
         ctx.res().setStatus(201);
     }
 
@@ -37,7 +37,7 @@ public class SkillController {
         SkillDTO candidateDTO = ctx.bodyAsClass(SkillDTO.class);
         SkillDTO candidate = skillDAO.getById(id);
         if(candidate == null){
-            ctx.status(HttpStatus.NOT_FOUND).result("Guide Not Found");
+            ctx.status(HttpStatus.NOT_FOUND).result("Skill Not Found");
         }
 
         SkillDTO updatedCandidate = skillDAO.update(candidateDTO);
@@ -49,10 +49,10 @@ public class SkillController {
         int id = Integer.parseInt(ctx.pathParam("id"));
         SkillDTO candidateDTO = skillDAO.getById(id);
         if(candidateDTO == null){
-            ctx.status(HttpStatus.NOT_FOUND).result("Guide Not Found");
+            ctx.status(HttpStatus.NOT_FOUND).result("Skill Not Found");
         }
 
-        Boolean tripDeleted = skillDAO.delete(id);
+        Boolean skillDeleted = skillDAO.delete(id);
         ctx.status(HttpStatus.OK).result("Entity deleted");
     }
 }

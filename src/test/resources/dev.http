@@ -30,7 +30,7 @@ Accept: application/json
 Authorization: Bearer {{jwt_token}}
 
 ### Add admin role to user
-POST {{url}}/auth/user/addrole/ADMIN
+POST {{url}}/auth/user/addrole
 Accept: application/json
 Authorization: Bearer {{jwt_token}}
 

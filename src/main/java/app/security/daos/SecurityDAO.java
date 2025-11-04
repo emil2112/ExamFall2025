@@ -78,7 +78,7 @@ public class SecurityDAO implements ISecurityDAO {
                 em.persist(role);
             }
             user.addRole(role);
-            //em.merge(user);
+            em.merge(user);
             em.getTransaction().commit();
             return user;
         }

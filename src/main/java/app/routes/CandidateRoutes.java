@@ -12,8 +12,8 @@ public class CandidateRoutes {
     protected EndpointGroup getRoutes(){
 
         return () -> {
-            get("/", controller::getAllCandidates, Role.ADMIN);
-            get("/{id}", controller::getCandidateById, Role.ADMIN);
+            get("/", controller::getAllCandidates, Role.USER);
+            get("/{id}", controller::getCandidateById, Role.USER);
             post("/", controller::createCandidate, Role.ADMIN);
             put("/{id}", controller::updateCandidate, Role.ADMIN);
             delete("/{id}", controller::deleteCandidate, Role.ADMIN);

@@ -34,11 +34,9 @@ public class SkillRoutesTest {
     @BeforeAll
     static void init() {
 
-        // 2) Start server (this should read the same test config)
         app = ApplicationConfig.startServer(7070);
         dao = SkillDAO.getInstance(emf);
 
-        // 4) Rest Assured base URL/URI
         RestAssured.baseURI = "http://localhost:7070";
         RestAssured.basePath = "/api";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); // auto-log failures
@@ -56,7 +54,7 @@ public class SkillRoutesTest {
             populator.populateEntities();
             securityToken = given()
                     .contentType("application/json")
-                    .body("{\"username\":\"admin\",\"password\":\"admin\"}") // use a test user that exists
+                    .body("{\"username\":\"admin\",\"password\":\"admin\"}")
                     .when()
                     .post("/auth/login")
                     .then()
