@@ -10,6 +10,8 @@ import app.exceptions.DAOException;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import jakarta.persistence.EntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
@@ -19,6 +21,8 @@ public class CandidateController {
 
     private final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
     private final CandidateDAO candidateDAO = CandidateDAO.getInstance(emf);
+    private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
+
 
     public void getAllCandidates(Context ctx){
         String category = ctx.queryParam("category");
@@ -97,6 +101,7 @@ public class CandidateController {
             ctx.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .result("Error adding skill to the candidate in the database " + e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ApiException(500, "Unexpected error while adding skill to the candidate");
         }
     }

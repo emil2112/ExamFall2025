@@ -12,11 +12,11 @@ public class SkillRoutes {
     protected EndpointGroup getRoutes(){
 
         return () -> {
-            get("/", controller::getAllSkills, Role.ADMIN);
-            get("/{id}", controller::getSkillById, Role.ADMIN);
-            post("/", controller::createSkill, Role.ADMIN);
-            put("/{id}", controller::updateSkill, Role.ADMIN);
-            delete("/{id}", controller::deleteSkill, Role.ADMIN);
+            get("/", controller::getAllSkills, Role.USER);
+            get("/{id}", controller::getSkillById, Role.USER);
+            post("/", controller::createSkill, Role.USER);
+            put("/{id}", controller::updateSkill, Role.USER);
+            delete("/{id}", controller::deleteSkill, Role.USER);
         };
     }
 

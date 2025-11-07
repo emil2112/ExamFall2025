@@ -98,14 +98,17 @@ public class CandidateDAO implements IDAO <CandidateDTO, Integer>{
 
     public CandidateDTO addSkill (Integer candidateId, Integer skillId){
         try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+
             Candidate candidate = em.find(Candidate.class, candidateId);
             Skill skill = em.find(Skill.class, skillId);
 
             if(candidate != null){
+                //Syncs both of the relations, so Hibernate knows that both sides are update
+                //Otherwise join table is not updated/made
                 candidate.addSkill(skill);
+                skill.getCandidates().add(candidate);
 
-                em.getTransaction().begin();
-                em.merge(candidate);
                 em.getTransaction().commit();
                 return new CandidateDTO(candidate);
             }else{
