@@ -4,17 +4,19 @@ import app.config.HibernateConfig;
 import app.daos.CandidateDAO;
 import app.dtos.CandidateDTO;
 import app.entities.Candidate;
+import app.entities.Skill;
+import app.entities.Slug;
 import app.enums.Category;
 import app.exceptions.ApiException;
 import app.exceptions.DAOException;
+import app.services.SkillService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CandidateController {
@@ -22,6 +24,7 @@ public class CandidateController {
     private final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
     private final CandidateDAO candidateDAO = CandidateDAO.getInstance(emf);
     private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
+    private final SkillService skillService = new SkillService();
 
 
     public void getAllCandidates(Context ctx){
@@ -51,7 +54,21 @@ public class CandidateController {
     public void getCandidateById(Context ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
         CandidateDTO candidateDTO = candidateDAO.getById(id);
-        ctx.status(200).json(candidateDTO);
+        List<Slug> data = new ArrayList<>();
+
+        //Fetches relevant slugs if Candidate has skills
+        if(candidateDTO.getSkills() != null){
+             data = candidateDTO.getSkills().stream()
+                    .map(skill -> skillService.getSlug(skill.getName().toLowerCase()))
+                    .toList();
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Candidate", candidateDTO);
+        response.put("Slugs", data);
+
+        ctx.status(200).json(response);
+
     }
 
     public void createCandidate(Context ctx){
