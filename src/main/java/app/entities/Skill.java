@@ -27,7 +27,7 @@ public class Skill {
 
     private String description;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnore
     private Set<Candidate> candidates = new HashSet<>();
 

@@ -107,7 +107,7 @@ public class CandidateDAO implements IDAO <CandidateDTO, Integer>{
                 //Syncs both of the relations, so Hibernate knows that both sides are update
                 //Otherwise join table is not updated/made
                 candidate.addSkill(skill);
-                skill.getCandidates().add(candidate);
+//                skill.getCandidates().add(candidate);
 
                 em.getTransaction().commit();
                 return new CandidateDTO(candidate);

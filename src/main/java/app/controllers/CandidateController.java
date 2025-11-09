@@ -65,7 +65,7 @@ public class CandidateController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("Candidate", candidateDTO);
-        response.put("Slugs", data);
+        response.put("Data", data);
 
         ctx.status(200).json(response);
 

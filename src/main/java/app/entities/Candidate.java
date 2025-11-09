@@ -24,8 +24,7 @@ public class Candidate {
 
     private String educationBackground;
 
-    //TODO: overvej cascadeType
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "candidate_skill",
             joinColumns = @JoinColumn(name = "candidate_id"),
